@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>林樂全的個人網站</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* --- 全域設定 --- */
+        * { box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            color: #333;
+            line-height: 1.6;
+            background-color: #fdfdfd;
+        }
+        a { text-decoration: none; color: #007bff; transition: 0.3s; }
+        a:hover { color: #0056b3; }
+
+        /* --- 排版架構 --- */
+        .container {
+            display: flex;
+            max-width: 1200px;
+            margin: 0 auto;
+            min-height: 100vh;
+        }
+
+        /* --- 左側欄樣式 --- */
+        .sidebar {
+            width: 300px;
+            background-color: #f4f4f4;
+            padding: 40px 20px;
+            text-align: center;
+            flex-shrink: 0;
+            border-right: 1px solid #eee;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+        }
+        .profile-img {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+            border: 5px solid white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .sidebar h1 { font-size: 1.5rem; margin: 10px 0 5px; color: #222; }
+        .sidebar p { font-size: 0.9rem; color: #666; margin-bottom: 20px; }
+        .social-links { margin-top: 20px; }
+        .social-links a {
+            font-size: 1.2rem;
+            margin: 0 8px;
+            color: #555;
+        }
+        .social-links a:hover { color: #222; }
+
+        /* --- 右側內容樣式 --- */
+        .main-content {
+            flex-grow: 1;
+            padding: 40px 60px;
+            background-color: white;
+        }
+        
+        /* 導覽列 (分頁按鈕樣式) */
+        .nav {
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+            margin-bottom: 40px;
+        }
+        .nav a {
+            margin-right: 25px;
+            font-weight: bold;
+            color: #555;
+            font-size: 1.1rem;
+            cursor: pointer; /* 讓滑鼠變成手指形狀 */
+            position: relative;
+        }
+        .nav a:hover, .nav a.active { 
+            color: #007bff; 
+        }
+        /* 標示當前頁面的底線 */
+        .nav a.active::after {
+            content: '';
+            display: block;
+            width: 100%;
+            height: 3px;
+            background: #007bff;
+            position: absolute;
+            bottom: -22px;
+            left: 0;
+        }
+
+        /* 區塊樣式 */
+        /* 預設隱藏所有區塊，透過 JS 加上 active class 來顯示 */
+        .content-section { 
+            display: none; 
+            animation: fadeIn 0.5s; /* 加入淡入動畫 */
+        }
+        .content-section.active { display: block; }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            color: #222;
+        }
+        h3 { font-size: 1.2rem; margin-bottom: 5px; color: #333; }
+        .date { font-size: 0.9rem; color: #888; margin-bottom: 10px; display: block; }
+        .item { margin-bottom: 30px; }
+        ul { padding-left: 20px; color: #555; }
+
+        /* 下載按鈕樣式 */
+        .download-btn {
+            display: inline-block;
+            background-color: #007bff;
+            color: white !important;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        .download-btn:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        /* --- 手機版響應式 --- */
+        @media (max-width: 768px) {
+            .container { flex-direction: column; }
+            .sidebar { 
+                width: 100%; 
+                height: auto; 
+                position: relative; 
+                border-right: none;
+                border-bottom: 1px solid #eee;
+            }
+            .main-content { padding: 30px 20px; }
+            .nav { overflow-x: auto; white-space: nowrap; } /* 手機版導覽列可橫向滑動 */
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <aside class="sidebar">
+        <img src="photo.jpg" alt="大頭貼" class="profile-img">
+        <h1>林樂全 Peter Lin</h1>
+        <p>國立臺灣大學 農業經濟學系<br>National Taiwan University<br>Department of Agricultural Economics</p>
+        
+        <div class="social-links">
+            <a href="mailto:lequanlin0414@gmail.com" title="Email"><i class="fas fa-envelope"></i></a>
+            <a href="https://github.com/lequanlin0414" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+            <a href="https://www.linkedin.com/in/le-chiuan-lin-a54a36324/" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            <a href="https://www.instagram.com/le.c__414/" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <nav class="nav">
+            <a onclick="switchTab('about')" id="nav-about" class="active">About Me</a>
+            <a onclick="switchTab('cv')" id="nav-cv">Experiences</a>
+            <a onclick="switchTab('experiences')" id="nav-experiences">Projects</a>
+        </nav>
+
+        <section id="about" class="content-section active">
+            <h2>關於我 About Me</h2>
+            <p>我是林樂全，目前就讀於國立臺灣大學農業經濟學系。我擁有在安侯建業會計師事務所與品佳股份有限公司的財務與會計實習經驗，擅長運用Excel進行數據分析與自動化模型建立。同時，我也熱衷於跨文化交流與活動策劃，致力於將理性的分析能力與感性的溝通技巧結合，在團隊中創造實際的價值與影響力。</p>
+            <p>My name is Peter Lin, an student studying at National Taiwan University Department of Agricultural Economics. My background includes finance and accounting internships at KPMG and WPG Holdings, where I honed my skills in data analysis and automation using Excel. I am also passionate about cross-cultural communication and project management, where I strive to combine analytical precision with empathetic leadership to drive meaningful results in every project I undertake.</p>
+        </section>
+
+        <section id="cv" class="content-section">
+            <h2>經歷 Experiences</h2>
+            
+            <div class="item">
+                <h3>完整簡歷與作品集 Full Resume and Portfolio</h3>
+                <span class="date">更新至2025年12月 Updated till DEC 2025</span>
+                
+                <a href="簡歷.pdf" download="PeterLin_簡歷.pdf" class="download-btn">
+                    <i class="fas fa-file-download"></i> 下載簡歷 PDF
+	        </a>
+		<a href="Resume.pdf" download="PeterLin_Resume.pdf" class="download-btn">
+                    <i class="fas fa-file-download"></i> Download Resume PDF
+                </a>
+                <a href="Portfolio.pdf" download="PeterLin_Portfolio.pdf" class="download-btn">
+                    <i class="fas fa-file-download"></i> Download Portfolio PDF
+                </a> 
+            </div>
+        </section>
+
+        <section id="experiences" class="content-section">
+            <h2>專案 Projects</h2>
+            <div class="item">
+                <h3>臺灣汽車產業財務報表分析 ｜ Financial Statement Analysis of Taiwan's Automotive Industry</h3>
+                <span class="date">Spring 2022</span>
+                <ul>
+                    <li>本報告針對台灣汽車市場兩大龍頭——和泰汽車與裕隆汽車，進行了 2018 至 2022 年間的全面性財務評估。透過垂直分析、水平分析、財務比率分析及杜邦分析法，深入探討兩家企業在經營績效、獲利品質與償債能力上的差異。專案特別剖析了外部環境（如新冠疫情、車用晶片短缺）及特殊事件（如和泰防疫險風波）對財務表現的實質衝擊。</li>
+                    <li>This report delivers a comprehensive financial evaluation of Taiwan’s two leading automotive giants, Hotai Motor and Yulon Motor, covering the period from 2018 to 2022. Utilizing vertical, horizontal, financial ratio, and DuPont analysis, we conducted an in-depth study of their operational performance, profitability, and solvency. The analysis specifically highlights the financial impact of external macro-factors, such as the COVID-19 pandemic and semiconductor shortages, alongside corporate-specific events like Hotai's pandemic insurance losses.</li>
+                </ul>
+                
+                <a href="Automotive_Report.pdf" download="Automotive_Report.pdf" class="download-btn">
+                    <i class="fas fa-file-pdf"></i> 下載完整報告 (Download Report)
+                </a>
+
+            </div>
+            <div class="item">
+                <h3>臺灣水泥產業市值與獲利指標之關聯統計分析 ｜ Statistical Analysis of the Correlation between Market Value and Profitability Indicators in Taiwan's Cement Industry</h3>
+                <span class="date">Spring 2023</span>
+                <ul>
+                    <li>本報告旨在探討台灣水泥產業中，各項獲利指標（如 ROE、EPS、毛利率等）與企業市值之間的關聯性。研究採用 Python 進行統計建模，將產業分為「龍頭公司」與「中小型公司」兩大類群進行對比分析。透過相關係數熱力圖、多元線性迴歸及殘差分析，我們不僅建立了預測模型，更深入探討了如「綠色轉型投資」等質性因素如何影響獲利指標與市值之間的數值表現。</li>
+                    <li>This report investigates the correlation between profitability indicators (such as ROE, EPS, and margins) and corporate market capitalization within Taiwan's cement industry. Utilizing Python for statistical modeling, the research segments the industry into "Market Leaders" and "SMEs" for comparative analysis. Through correlation heatmaps, multiple linear regression, and residual diagnostics, we established predictive models and explored how qualitative factors, such as "green transition investments," influence the quantitative relationship between earnings and market valuation.</li> 
+                </ul>
+
+                <a href="Statistic_Report.pdf" download="Statistic_Report.pdf" class="download-btn">
+                    <i class="fas fa-file-pdf"></i> 下載完整報告 (Download Report)
+                </a>
+
+            </div>
+            <div class="item">
+                <h3>美國女性就業與勞動力參與率展望：與 OECD 國家之對比分析 ｜ The Outlook for Women’s Employment and Labor Force Participation: A Comparative Analysis between USA and OECD Countries</h3>
+                <span class="date">Fall 2024</span>
+                <ul>
+                    <li>本報告旨在分析過去 30 年間，美國女性勞動力參與率停滯不前的原因，並探討為何其表現逐漸落後於多數 OECD 國家。透過量化數據分析，本報告深入探討了薪資結構變化、教育程度影響、所得稅制度以及家庭支持政策（如育兒成本及有薪產假）對女性投入職場意願的關鍵影響。</li>
+                    <li>This report explores the factors behind the stagnation of women’s labor force participation in the United States over the last three decades, contrasting it with the rising trends in other OECD nations. Through quantitative analysis, the report investigates how evolving earnings structures, educational attainment, taxation systems, and the absence of robust family support policies—including high childcare costs and lack of paid parental leave—serve as significant barriers to women’s economic engagement.</li>
+                </ul>
+
+                <a href="Labor_Report.pdf" download="Labor_Report.pdf" class="download-btn">
+                    <i class="fas fa-file-pdf"></i> 下載完整報告 (Download Report)
+                </a>
+
+            </div>
+            <div class="item">
+                <h3>MeLink：台大校園社交媒合平台開發計畫 ｜ MeLink: A Social Connection Platform for NTU Students</h3>
+                <span class="date">Fall 2025</span>
+                <ul>
+                    <li>本專案為台大「打造未來領袖」課程的校園創新實踐計畫。針對校園中普遍存在的社交痛點 ——「難開口、難揪人、難找到適合對象」，我們開發了整合餐飲與訊息交流的平台「MeLink」。透過「揪團吃飯 (Meal)」與「話題聊天 (Message)」兩大核心功能，鼓勵學生從線上走入線下實體見面，旨在提升校園幸福感，並營造主動關心彼此的互動氛圍 。</li>
+                    <li>As a college campus innovation initiative for the "Building Future Leaders" program at NTU, our team created "MeLink", a platform designed to tackle common social barriers on campus: "difficulty in starting conversations," "difficulty in organizing gatherings," and "difficulty in finding compatible peers". By integrating its core functions of "Meal" and "Message," MeLink encourages students to transition from online chats to in-person meetings, fostering a supportive campus atmosphere and enhancing overall student well-being.</li>
+                </ul>
+
+                <a href="MeLink_Report.pdf" download="MeLink_Report.pdf" class="download-btn">
+                    <i class="fas fa-file-pdf"></i> 下載完整報告 (Download Report)
+                </a>
+
+            </div>
+        </section>
+
+    </main>
+</div>
+
+<script>
+    function switchTab(tabId) {
+        // 1. 隱藏所有內容區塊
+        const sections = document.querySelectorAll('.content-section');
+        sections.forEach(section => {
+            section.classList.remove('active');
+        });
+
+        // 2. 移除所有導覽列按鈕的 active 狀態
+        const navLinks = document.querySelectorAll('.nav a');
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+        });
+
+        // 3. 顯示被點擊的區塊
+        document.getElementById(tabId).classList.add('active');
+
+        // 4. 幫被點擊的按鈕加上 active 狀態 (變藍色、有底線)
+        document.getElementById('nav-' + tabId).classList.add('active');
+        
+        // 5. 畫面捲動回最上方 (優化手機體驗)
+        window.scrollTo(0, 0);
+    }
+</script>
+
+</body>
+</html>
